@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/mailifica/mailifica-go"
+	"github.com/deveterim/lumi-go"
 )
 
 func main() {
-	client := mailifica.NewClient("ma_live_123456789")
+	client := lumi.NewClient("lu_live_123456789")
 
-	params := &mailifica.SendEmailRequest{
-		From:    "onboarding@suaempresa.ao",
+	params := &lumi.SendEmailRequest{
+		From:    "onboarding@suaempresa.com",
 		To:      []string{"destinatario@exemplo.com"},
 		Subject: "Sua fatura foi emitida",
 		Html:    "<h1>Fatura #9482</h1><p>Obrigado pela preferência.</p>",

@@ -1,3 +1,3 @@
-module github.com/mailifica/mailifica-go
+module github.com/deveterim/lumi-go
 
 go 1.21

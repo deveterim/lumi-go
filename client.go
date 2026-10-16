@@ -1,4 +1,4 @@
-package mailifica
+package lumi
 
 import (
 	"bytes"
@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	DefaultBaseURL = "https://api.mailifica.com/v1"
+	DefaultBaseURL = "https://api.lumi.email/v1"
 	Version        = "1.0.2"
 )
 
@@ -31,10 +31,10 @@ type Client struct {
 
 func NewClient(apiKey string) *Client {
 	if apiKey == "" {
-		apiKey = os.Getenv("MAILIFICA_API_KEY")
+		apiKey = os.Getenv("LUMI_API_KEY")
 	}
 
-	baseURL := os.Getenv("MAILIFICA_BASE_URL")
+	baseURL := os.Getenv("LUMI_BASE_URL")
 	if baseURL == "" {
 		baseURL = DefaultBaseURL
 	}

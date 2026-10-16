@@ -1,4 +1,4 @@
-package mailifica
+package lumi
 
 import (
 	"crypto/hmac"
