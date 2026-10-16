@@ -9,8 +9,8 @@ import (
 
 func TestEmailsSend(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Header.Get("Authorization") != "Bearer ma_test_123" {
-			t.Errorf("expected Authorization Bearer ma_test_123, got %s", r.Header.Get("Authorization"))
+		if r.Header.Get("Authorization") != "Bearer lu_test_123" {
+			t.Errorf("expected Authorization Bearer lu_test_123, got %s", r.Header.Get("Authorization"))
 		}
 		if r.Header.Get("Content-Type") != "application/json" {
 			t.Errorf("expected Content-Type application/json, got %s", r.Header.Get("Content-Type"))
@@ -27,7 +27,7 @@ func TestEmailsSend(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client := NewClient("ma_test_123")
+	client := NewClient("lu_test_123")
 	client.SetBaseURL(server.URL)
 
 	resp, err := client.Emails.Send(&SendEmailRequest{
@@ -62,7 +62,7 @@ func TestBatchSend(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client := NewClient("ma_test_123")
+	client := NewClient("lu_test_123")
 	client.SetBaseURL(server.URL)
 
 	resp, err := client.Batch.Send([]*SendEmailRequest{

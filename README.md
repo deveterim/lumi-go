@@ -27,7 +27,7 @@ import (
 )
 
 func main() {
-	client := lumi.NewClient("ma_live_123456789")
+	client := lumi.NewClient("lu_live_123456789")
 	// Ou configure a variável LUMI_API_KEY e use lumi.NewClient("")
 
 	params := &lumi.SendEmailRequest{
