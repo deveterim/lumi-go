@@ -1,4 +1,4 @@
-# Lumi Go SDK (`mailifica-go`)
+# Lumi Go SDK (`lumi-go`)
 
 > SDK oficial em Go para a infraestrutura de e-mails transacionais **Lumi**, com interface drop-in replacement compatível com o Resend Go SDK.
 
@@ -27,10 +27,10 @@ import (
 )
 
 func main() {
-	client := mailifica.NewClient("ma_live_123456789")
-	// Ou configure a variável LUMI_API_KEY e use mailifica.NewClient("")
+	client := lumi.NewClient("ma_live_123456789")
+	// Ou configure a variável LUMI_API_KEY e use lumi.NewClient("")
 
-	params := &mailifica.SendEmailRequest{
+	params := &lumi.SendEmailRequest{
 		From:    "onboarding@suaempresa.ao",
 		To:      []string{"cliente@gmail.com"},
 		Subject: "Boas-vindas!",
@@ -49,7 +49,7 @@ func main() {
 ### 2. Envio em Lote (Batch)
 
 ```go
-emails := []*mailifica.SendEmailRequest{
+emails := []*lumi.SendEmailRequest{
 	{
 		From:    "news@suaempresa.ao",
 		To:      []string{"user1@gmail.com"},
@@ -90,4 +90,4 @@ isValid := client.Webhooks.VerifySignature(payloadBytes, signatureHeader, webhoo
 
 ## 📄 Licença
 
-MIT © [Lumi](https://mailifica.com)
+MIT © [Lumi](https://lumi.email)

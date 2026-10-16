@@ -31,7 +31,7 @@ func (w *WebhooksSvc) VerifySignature(payload []byte, signature, secret string) 
 
 func (w *WebhooksSvc) ConstructEvent(payload []byte, signature, secret string) (*WebhookEvent, error) {
 	if !w.VerifySignature(payload, signature, secret) {
-		return nil, errors.New("mailifica: invalid webhook signature")
+		return nil, errors.New("lumi: invalid webhook signature")
 	}
 
 	var event WebhookEvent

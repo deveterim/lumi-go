@@ -9,5 +9,5 @@ type ErrorResponse struct {
 }
 
 func (e *ErrorResponse) Error() string {
-	return fmt.Sprintf("mailifica: status %d: %s", e.StatusCode, e.Message)
+	return fmt.Sprintf("lumi: status %d: %s", e.StatusCode, e.Message)
 }

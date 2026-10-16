@@ -66,7 +66,7 @@ func (c *Client) SetBaseURL(url string) {
 
 func (c *Client) NewRequest(ctx context.Context, method, path string, body any) (*http.Request, error) {
 	if c.apiKey == "" {
-		return nil, errors.New("mailifica: missing API key")
+		return nil, errors.New("lumi: missing API key")
 	}
 
 	var buf io.ReadWriter
@@ -85,7 +85,7 @@ func (c *Client) NewRequest(ctx context.Context, method, path string, body any) 
 
 	req.Header.Set("Authorization", "Bearer "+c.apiKey)
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("User-Agent", "mailifica-go/"+Version)
+	req.Header.Set("User-Agent", "lumi-go/"+Version)
 
 	return req, nil
 }
