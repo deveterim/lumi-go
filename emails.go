@@ -1,6 +1,9 @@
 package lumi
 
-import "context"
+import (
+	"context"
+	"strings"
+)
 
 type Tag struct {
 	Name  string `json:"name"`
@@ -35,15 +38,15 @@ type SendEmailResponse struct {
 }
 
 type Email struct {
-	Id        string   `json:"id"`
-	From      string   `json:"from"`
-	To        []string `json:"to"`
-	Subject   string   `json:"subject"`
-	Html      string   `json:"html,omitempty"`
-	Text      string   `json:"text,omitempty"`
-	Status    string   `json:"status"`
-	CreatedAt string   `json:"created_at"`
-	LastEvent string   `json:"last_event,omitempty"`
+	Id        string `json:"id"`
+	From      string `json:"from"`
+	To        any    `json:"to"`
+	Subject   string `json:"subject"`
+	Html      string `json:"html,omitempty"`
+	Text      string `json:"text,omitempty"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"createdAt"`
+	LastEvent string `json:"last_event,omitempty"`
 }
 
 type EmailsSvc struct {
@@ -91,7 +94,12 @@ func (s *EmailsSvc) SendWithContext(ctx context.Context, params *SendEmailReques
 	if params.ScheduledAt != "" {
 		payload["scheduled_at"] = params.ScheduledAt
 	}
-	req, err := s.client.NewRequest(ctx, "POST", "/emails", payload)
+
+	sendPath := "/api/v1/send"
+	if strings.HasSuffix(s.client.baseURL, "/v1") {
+		sendPath = "/send"
+	}
+	req, err := s.client.NewRequest(ctx, "POST", sendPath, payload)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +110,15 @@ func (s *EmailsSvc) SendWithContext(ctx context.Context, params *SendEmailReques
 		Status string            `json:"status"`
 	}
 	if err := s.client.Perform(req, &res); err != nil {
-		return nil, err
+		// Fallback to /emails
+		if req2, err2 := s.client.NewRequest(ctx, "POST", "/emails", payload); err2 == nil {
+			if err3 := s.client.Perform(req2, &res); err3 == nil {
+				err = nil
+			}
+		}
+		if err != nil {
+			return nil, err
+		}
 	}
 	if res.Data.Id != "" {
 		return &res.Data, nil
@@ -115,16 +131,31 @@ func (s *EmailsSvc) Get(emailId string) (*Email, error) {
 }
 
 func (s *EmailsSvc) GetWithContext(ctx context.Context, emailId string) (*Email, error) {
-	req, err := s.client.NewRequest(ctx, "GET", "/emails/"+emailId, nil)
+	getPath := "/api/v1/send/" + emailId
+	if strings.HasSuffix(s.client.baseURL, "/v1") {
+		getPath = "/send/" + emailId
+	}
+	req, err := s.client.NewRequest(ctx, "GET", getPath, nil)
 	if err != nil {
 		return nil, err
 	}
 
 	var res struct {
 		Data Email `json:"data"`
+		Email
 	}
 	if err := s.client.Perform(req, &res); err != nil {
-		return nil, err
+		if req2, err2 := s.client.NewRequest(ctx, "GET", "/emails/"+emailId, nil); err2 == nil {
+			if err3 := s.client.Perform(req2, &res); err3 == nil {
+				err = nil
+			}
+		}
+		if err != nil {
+			return nil, err
+		}
 	}
-	return &res.Data, nil
+	if res.Data.Id != "" {
+		return &res.Data, nil
+	}
+	return &res.Email, nil
 }

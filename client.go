@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	DefaultBaseURL = "https://api.lumi.email/v1"
+	DefaultBaseURL = "https://api.lumi.ao"
 	Version        = "1.0.2"
 )
 

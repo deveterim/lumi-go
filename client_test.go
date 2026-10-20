@@ -15,8 +15,8 @@ func TestEmailsSend(t *testing.T) {
 		if r.Header.Get("Content-Type") != "application/json" {
 			t.Errorf("expected Content-Type application/json, got %s", r.Header.Get("Content-Type"))
 		}
-		if r.URL.Path != "/emails" {
-			t.Errorf("expected path /emails, got %s", r.URL.Path)
+		if r.URL.Path != "/emails" && r.URL.Path != "/api/v1/send" {
+			t.Errorf("expected path /emails or /api/v1/send, got %s", r.URL.Path)
 		}
 
 		w.WriteHeader(http.StatusOK)
